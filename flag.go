@@ -99,6 +99,7 @@
 package flag
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -241,18 +242,34 @@ func Set(name, value string) error {
 // otherwise, the default values of all defined flags in the set.
 func (f *FlagSet) PrintDefaults() {
 	f.VisitAll(func(flag *Flag) {
-		format := "--%s=%s: %s\n"
-		if _, ok := flag.Value.(*stringValue); ok {
-			// put quotes on the value
-			format = "--%s=%q: %s\n"
-		}
-		if len(flag.Shorthand) > 0 {
-			format = "  -%s, " + format
-		} else {
-			format = "   %s   " + format
-		}
-		fmt.Fprintf(f.out(), format, flag.Shorthand, flag.Name, flag.DefValue, flag.Usage)
+		var line bytes.Buffer
+		line.WriteString(short(flag.Shorthand))
+		line.WriteString(long(flag.Name))
+		line.WriteString(value(flag.Value, flag.DefValue))
+		fmt.Fprintf(f.out(), "%-40s %s\n", line.String(), flag.Usage)
 	})
+}
+
+func short(s string) string {
+	if len(s) > 0 {
+		return fmt.Sprintf("%2s-%s, ", "", s)
+	}
+	return fmt.Sprintf("%6s", "")
+}
+
+func long(l string) string {
+	return fmt.Sprintf("--%s", l)
+}
+
+func value(v Value, d string) string {
+	switch v.(type) {
+	case *stringValue:
+		return fmt.Sprintf("=%q", d) // put quotes on the value
+	case *boolValue:
+		return "" // omit default value if bool
+	default:
+		return fmt.Sprintf("=%s", d)
+	}
 }
 
 // PrintDefaults prints to standard error the default values of all defined command-line flags.
