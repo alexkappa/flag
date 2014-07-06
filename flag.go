@@ -16,7 +16,7 @@
 	pflag under the name "flag" then all code should continue to function
 	with no changes.
 
-		import flag "github.com/ogier/pflag"
+		import "go.alxkp.co/flag.v0"
 
 	There is one exception to this: if you directly instantiate the Flag struct
 	there is one more field "Shorthand" that you will need to set.
@@ -96,7 +96,7 @@
 	analogous to the top-level functions for the command-line
 	flag set.
 */
-package pflag
+package flag
 
 import (
 	"errors"

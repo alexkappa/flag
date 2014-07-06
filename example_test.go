@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // These examples demonstrate more intricate uses of the flag package.
-package pflag_test
+package flag_test
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	flag "github.com/ogier/pflag"
+	"go.alxkp.co/flag.v0"
 )
 
 // Example 1: A single string flag called "species" with default value "gopher".

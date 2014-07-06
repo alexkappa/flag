@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag_test
+package flag_test
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/ogier/pflag"
+	. "go.alxkp.co/flag.v0"
 )
 
 var (
